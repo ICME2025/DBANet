@@ -12,13 +12,9 @@ The overall architecture of DBANet, which mainly consists of Feature Enhancement
 
 - python 3.8 + pytorch 1.9.0
 
-# Prepare Datasets
-
-- Download datasets: ORSSD from this [link](https://challenge.isic-archive.com/data/#2017), EORSSD from this [link](https://challenge.isic-archive.com/data/#2018), and ORS-4199 from this [link](https://www.dropbox.com/scl/fi/epzcoqeyr1v9qlv/PH2Dataset.rar?rlkey=6mt2jlvwfkditkyg12xdei6ux&e=1).
-
 # Train the DBANet
 - We use data_aug.m for data augmentation.
-- Download [pvt_v2_b2.pth](https://pan.baidu.com/s/1U6Bsyhu0ynXckU6EnJM35w) (code: sxiq), and put it in './model/'. 
+- Put 'pvt_v2_b2.pth' in './model/'. 
 - Modify paths of datasets, then run train_DBANet.py.
 - Note: Our main model is under './model/DBANet_models.py'
 
