@@ -9,7 +9,7 @@
 ## 🚀 Introduction
 
 <div align="center">
-    <img width="400" alt="image" src="asserts/Challenges.png?raw=true">
+    <img width="400" alt="image" src="images/Challenges.png?raw=true">
 </div>
 
 
@@ -19,7 +19,7 @@ The top row shows typical ORSIs; the middle row displays the ground truth; and t
 ## 📻 Overview
 
 <div align="center">
-<img width="800" alt="image" src="asserts/DBANet.png?raw=true">
+<img width="800" alt="image" src="images/DBANet.png?raw=true">
 </div>
 
 
@@ -65,7 +65,7 @@ pip install scikit-learn matplotlib thop h5py SimpleITK scikit-image medpy yacs
 ## 🖼️ Visualization
 
 <div align="center">
-<img width="800" alt="image" src="asserts/Visualization.png?raw=true">
+<img width="800" alt="image" src="images/Visualization.png?raw=true">
 </div>
 
 
