@@ -1,5 +1,4 @@
-<div align="center">
-<h1>DBANet </h1>
+DBANet
 
 
 ## 🎈 News
