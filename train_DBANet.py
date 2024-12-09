@@ -7,13 +7,13 @@ import numpy as np
 import pdb, os, argparse
 from datetime import datetime
 
-from model.GeleNet_models import GeleNet
+from model.DBANet_models import DBANet
 from data import get_loader
 from utils import clip_gradient, adjust_lr
 
 import pytorch_iou
 
-torch.cuda.set_device(2)
+torch.cuda.set_device(0)
 parser = argparse.ArgumentParser()
 parser.add_argument('--epoch', type=int, default=45, help='epoch number')
 parser.add_argument('--lr', type=float, default=1e-4, help='learning rate')
@@ -25,19 +25,16 @@ parser.add_argument('--decay_epoch', type=int, default=30, help='every n epochs 
 opt = parser.parse_args()
 
 # build models
-model = GeleNet()
+model = DBANet()
 
 model.cuda()
 params = model.parameters()
 optimizer = torch.optim.Adam(params, opt.lr)
-#
-# image_root = './dataset/train_dataset/ORSSD/train/image/'
-# gt_root = './dataset/train_dataset/ORSSD/train/GT/'
-image_root = '/home/wyq/dataset/RS-SOD/EORSSD_aug/train/images/'
-gt_root = '/home/wyq/dataset/RS-SOD/EORSSD_aug/train/gt/'
+
+image_root = './dataset/RS-SOD/EORSSD_aug/train/images/'
+gt_root = './dataset/RS-SOD/EORSSD_aug/train/gt/'
 train_loader = get_loader(image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize)
 total_step = len(train_loader)
-
 
 CE = torch.nn.BCEWithLogitsLoss()
 IOU = pytorch_iou.IOU(size_average = True)
@@ -68,12 +65,12 @@ def train(train_loader, model, optimizer, epoch):
                            opt.lr * opt.decay_rate ** (epoch // opt.decay_epoch), loss.data))
 
 
-    save_path = '/home/wyq/work/duibi_shiyan/ACCoNet/models/'
+    save_path = 'models/DBANet/'
 
     if not os.path.exists(save_path):
         os.makedirs(save_path)
-    if (epoch+1) > 38:
-        torch.save(model.state_dict(), save_path + 'GeleNet.pth' + '.%d' % epoch, _use_new_zipfile_serialization=False)
+    if (epoch+1) > 40:
+        torch.save(model.state_dict(), save_path + 'DBANet.pth' + '.%d' % epoch, _use_new_zipfile_serialization=False)
 
 print("Let's go!")
 for epoch in range(1, opt.epoch):
