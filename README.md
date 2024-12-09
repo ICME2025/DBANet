@@ -1,7 +1,7 @@
 # DBANet
 This project provides the code for 'Dual-Branch Attention Network for ORSI Salient Object Detection via Enhanced Feature Learning'
 
-# Introduction
+## Introduction
 
 <div align="center">
     <img width="400" alt="image" src="images/Challenges.png?raw=true">
