@@ -1,10 +1,10 @@
 <div align="center">
-<h1>Dual-Branch Attention Network for ORSI Salient Object Detection via Enhanced Feature Learning </h1>
+<h1>DBANet </h1>
 
 
 ## 🎈 News
 
-- [2024.11.10] Training and inference code released
+This project provides the code and results for 'Dual-Branch Attention Network for ORSI Salient Object Detection via Enhanced Feature Learning'
 
 ## 🚀 Introduction
 
