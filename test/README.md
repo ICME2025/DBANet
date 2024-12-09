@@ -1,5 +1,6 @@
 <div align="center">
-<h1>Dual-Branch Attention Network for ORSI Salient Object Detection via Enhanced Feature Learning </h1>
+<h1>Dual-Branch Attention Network for ORSI Salient Object Detection 
+    via Enhanced Feature Learning </h1>
 </div>
 
 
