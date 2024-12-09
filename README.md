@@ -10,7 +10,7 @@ The overall architecture of DBANet, which mainly consists of Feature Enhancement
 
 # Requirements
 
-python 3.8 + pytorch 1.9.0
+- python 3.8 + pytorch 1.9.0
 
 # Prepare Datasets
 
