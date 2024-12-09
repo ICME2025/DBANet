@@ -1,9 +1,5 @@
-DBANet
-
-
-## 🎈 News
-
-This project provides the code and results for 'Dual-Branch Attention Network for ORSI Salient Object Detection via Enhanced Feature Learning'
+## DBANet
+This project provides the code for 'Dual-Branch Attention Network for ORSI Salient Object Detection via Enhanced Feature Learning'
 
 ## 🚀 Introduction
 
