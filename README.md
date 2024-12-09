@@ -25,6 +25,12 @@ The overall architecture of DBANet, which mainly consists of Feature Enhancement
 # Test the DBANet
 - Run test_DBANet.py.
 
+# Quantitative comparison
+Quantitative comparison with state-of-the-art methods on the ORSSD, EORSSD and ORS-4199 datasets.
+
+<div align="center">
+<img width="900" alt="image" src="images/table.png?raw=true">
+</div>
 
 # Visualization
 
