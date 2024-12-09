@@ -5,7 +5,7 @@ This project provides the code for 'Dual-Branch Attention Network for ORSI Salie
 The overall architecture of DBANet, which mainly consists of Feature Enhancement Attention (FEA) module and an improved decoder. (a) Diagonal Enhanced Attention (DEA), (b) Multi-Scale Spatial Attention (MSA), and (c) Channel-Enhanced Attention Fusion (CEA).
 
 <div align="center">
-<img width="800" alt="image" src="images/DBANet.png?raw=true">
+<img width="900" alt="image" src="images/DBANet.png?raw=true">
 </div>
 
 # Requirements
@@ -33,9 +33,10 @@ Quantitative comparison with state-of-the-art methods on the ORSSD, EORSSD and O
 </div>
 
 # Visualization
+Visualization comparing DBANet with eleven advanced methods on the ORS-4199 dataset.
 
 <div align="center">
-<img width="800" alt="image" src="images/Visualization.png?raw=true">
+<img width="900" alt="image" src="images/Visualization.png?raw=true">
 </div>
 
 
