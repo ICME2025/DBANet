@@ -1,16 +1,6 @@
 # DBANet
 This project provides the code for 'Dual-Branch Attention Network for ORSI Salient Object Detection via Enhanced Feature Learning'
 
-# Introduction
-
-<div align="center">
-    <img width="400" alt="image" src="images/Challenges.png?raw=true">
-</div>
-
-
-The top row shows typical ORSIs; the middle row displays the ground truth; and the bottom row presents the salient prediction map of the NSI-SOD method DPORT.
-
-
 # Network Architecture
 The overall architecture of DBANet, which mainly consists of Feature Enhancement Attention (FEA) module and an improved decoder. (a) Diagonal Enhanced Attention (DEA), (b) Multi-Scale Spatial Attention (MSA), and (c) Channel-Enhanced Attention Fusion (CEA).
 
