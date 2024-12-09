@@ -14,7 +14,6 @@ The overall architecture of DBANet, which mainly consists of Feature Enhancement
 
 # Train the DBANet
 - We use data_aug.m for data augmentation.
-- Put 'pvt_v2_b2.pth' in './model/'. 
 - Modify paths of datasets, then run train_DBANet.py.
 - Note: Our main model is under './model/DBANet_models.py'
 
