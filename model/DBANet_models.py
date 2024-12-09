@@ -45,20 +45,13 @@ class BasicConv2dReLu(nn.Module):
         return x
 
 
-class MECS(nn.Module):
-    def __init__(self, channel, channel_attention_reduce=4):
-        super(MECS , self).__init__()
+class MSA(nn.Module):
+    def __init__(self, channel):
+        super(MSA , self).__init__()
 
-        self.C = channel
-        self.O = channel
-        
-        assert channel == channel, "Input and output channels must be the same"
-       
         self.initial_depth_conv = nn.Conv2d(channel, channel, kernel_size=5, padding=2, groups=channel)
 
-        
         self.depth_convs = nn.ModuleList([
-
             nn.Conv2d(channel, channel, kernel_size=(1, 7), padding=(0, 3), groups=channel),
             nn.Conv2d(channel, channel, kernel_size=(7, 1), padding=(3, 0), groups=channel),
             nn.Conv2d(channel, channel, kernel_size=(1, 11), padding=(0, 5), groups=channel),
@@ -136,10 +129,9 @@ class Diagonal(nn.Module):
         return x_Diagonal1, x_Diagonal2
 
 
-
-class SGCA_1(nn.Module):
-    def __init__(self, channel, h, w):
-        super(SGCA_1, self).__init__()
+class DEA(nn.Module):
+    def __init__(self, channel):
+        super(DEA, self).__init__()
         self.diagonal = Diagonal()       
         self.SGCA = SGCA(channel, h, w)
         
@@ -189,18 +181,13 @@ class SGCA_1(nn.Module):
         attention_output = torch.bmm(value, attention_scores)
         attention_output = attention_output.view(B, C, H, W)
         out = self.gamma_cur * self.conv(attention_output) + x
-        
-      
-        
-        
-        
+             
         return out
 
-
         
-class GCSA(nn.Module):
+class CEA(nn.Module):
     def __init__(self, in_channels, rate=4):
-        super(GCSA, self).__init__()
+        super(CEA, self).__init__()
 
         
         self.channel_attention = nn.Sequential(
@@ -245,14 +232,14 @@ class GCSA(nn.Module):
         return out  
 
 
-class PDecoder(nn.Module):
+class Decoder(nn.Module):
     def __init__(self, channel):
-        super(PDecoder, self).__init__()
+        super(Decoder, self).__init__()
         
-        self.GCSA1 = GCSA(32)
-        self.GCSA2 = GCSA(96)
-        self.GCSA3 = GCSA(96)
-        self.GCSA4 = GCSA(96)
+        self.CEA1 = CEA(32)
+        self.CEA2 = CEA(96)
+        self.CEA3 = CEA(96)
+        self.CEA4 = CEA(96)
         
         self.upsample = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
         
@@ -286,23 +273,23 @@ class PDecoder(nn.Module):
 
     def forward(self, x4, x3, x2, x1):
 
-        x4_gcsa = self.GCSA1(x4)
-        x4_decoder = self.decoder4(x4_gcsa)  # 32*22*22
+        x4_cea = self.CEA1(x4)
+        x4_decoder = self.decoder4(x4_cea)  # 32*22*22
         x4 = self.upsample(x4) #  32*22*22
 
         x3_cat = torch.cat([x4_decoder, x3, x4], 1)   # 96*22*22
-        x3_gcsa = self.GCSA2(x3_cat)        
-        x3_decoder = self.decoder3(x3_gcsa)
+        x3_cea = self.CEA2(x3_cat)        
+        x3_decoder = self.decoder3(x3_cea)
         x3 = self.upsample(x3) #  32*44*44
 
         x2_cat = torch.cat([x3_decoder, x2, x3], 1) # 96*44*44
-        x2_gcsa = self.GCSA3(x2_cat)        
-        x2_decoder = self.decoder2(x2_gcsa)   # 32*88*88  
+        x2_cea = self.CEA3(x2_cat)        
+        x2_decoder = self.decoder2(x2_cea)   # 32*88*88  
         x2 = self.upsample(x2) #  32*88*88       
 
         x1_cat = torch.cat([x2_decoder, x1, x2], 1) # 96*88*88
-        x1_gcsa = self.GCSA4(x1_cat)        
-        x1_decoder = self.decoder1(x1_gcsa)   # 32*88*88
+        x1_cea = self.CEA4(x1_cat)        
+        x1_decoder = self.decoder1(x1_cea)   # 32*88*88
 
         
         x = self.conv(x1_decoder) # 1*88*88
@@ -312,12 +299,12 @@ class PDecoder(nn.Module):
         
         
 
-class GeleNet(nn.Module):
+class DBANet(nn.Module):
     def __init__(self, channel=32):
-        super(GeleNet, self).__init__()
+        super(DBANet, self).__init__()
 
         self.backbone = pvt_v2_b2()  # [64, 128, 320, 512]
-        path = '/home/wyq/work/tyf_wyq_shiyan/EORSSD/MECS+SGCA+GCSA_decoder_11+_SGCA3qkv1/model/pvt_v2_b2.pth'
+        path = './model/pvt_v2_b2.pth'
         save_model = torch.load(path)
         model_dict = self.backbone.state_dict()
         state_dict = {k: v for k, v in save_model.items() if k in model_dict.keys()}
@@ -330,28 +317,19 @@ class GeleNet(nn.Module):
         self.ChannelNormalization_3 = BasicConv2d(320, channel, 3, 1, 1) # 320x22x22->32x22x22
         self.ChannelNormalization_4 = BasicConv2d(512, channel, 3, 1, 1) # 512x11x11->32x11x11
 
+        self.DEA1 = DEA(64)
+        self.DEA2 = DEA(128)
+        self.DEA3 = DEA(320)
+        self.DEA4 = DEA(512)  
         
-        # 模块1
-
-        self.MECS1 = MECS(64, channel_attention_reduce=4)
-        self.MECS2 = MECS(128, channel_attention_reduce=4)
-        self.MECS3 = MECS(320, channel_attention_reduce=4)
-        self.MECS4 = MECS(512, channel_attention_reduce=4)
- 
-         
-        # 模块2
-        self.SGCA1 = SGCA_1(64, h=88, w=88)
-        self.SGCA2 = SGCA_1(128, h=44, w=44)
-        self.SGCA3 = SGCA_1(320, h=22, w=22)
-        self.SGCA4 = SGCA_1(512, h=11, w=11)
-        
-
-        
-        self.PDecoder = PDecoder(channel)
+        self.MSA1 = MSA(64)
+        self.MSA2 = MSA(128)
+        self.MSA3 = MSA(320)
+        self.MSA4 = MSA(512)
+    
+        self.Decoder = Decoder(channel)
         
         self.sigmoid = nn.Sigmoid()
-
-
 
     def forward(self, x):
 
@@ -362,32 +340,28 @@ class GeleNet(nn.Module):
         x3 = pvt[2] # 320x22x22
         x4 = pvt[3] # 512x11x11
         
-        #模块1MECS for x1 x2 x3 x4
 
-        x1_mecs = self.MECS1(x1)
-        x2_mecs = self.MECS2(x2)
-        x3_mecs = self.MECS3(x3)
-        x4_mecs = self.MECS4(x4)
+        x1_dea = self.DEA1(x1)
+        x2_dea = self.DEA2(x2)
+        x3_dea = self.DEA3(x3)
+        x4_dea = self.DEA4(x4)
 
-      
-
-        # SGCA for x1 x2 x3 x4
-        x1_SGCA = self.SGCA1(x1)
-        x2_SGCA = self.SGCA2(x2)
-        x3_SGCA = self.SGCA3(x3)
-        x4_SGCA = self.SGCA4(x4)
+        x1_msa = self.MSA1(x1)
+        x2_msa = self.MSA2(x2)
+        x3_msa = self.MSA3(x3)
+        x4_msa = self.MSA4(x4)
        
-        x1_all = x1_SGCA + x1_mecs
-        x2_all = x2_SGCA + x2_mecs
-        x3_all = x3_SGCA + x3_mecs
-        x4_all = x4_SGCA + x4_mecs
+        x1_all = x1_msa + x1_mecs
+        x2_all = x2_msa + x2_mecs
+        x3_all = x3_msa + x3_mecs
+        x4_all = x4_msa + x4_mecs
         
         x1_nor = self.ChannelNormalization_1(x1_all) # 32x88x88
         x2_nor = self.ChannelNormalization_2(x2_all) # 32x44x44
         x3_nor = self.ChannelNormalization_3(x3_all) # 32x22x22
         x4_nor = self.ChannelNormalization_4(x4_all) # 32x11x11
         
-        prediction = self.PDecoder(x4_nor, x3_nor, x2_nor, x1_nor)
+        prediction = self.Decoder(x4_nor, x3_nor, x2_nor, x1_nor)
 
 
         return prediction, self.sigmoid(prediction)
