@@ -31,10 +31,9 @@ model.cuda()
 params = model.parameters()
 optimizer = torch.optim.Adam(params, opt.lr)
 #
-# image_root = './dataset/train_dataset/ORSSD/train/image/'
-# gt_root = './dataset/train_dataset/ORSSD/train/GT/'
-image_root = '/home/wyq/dataset/RS-SOD/EORSSD_aug/train/images/'
-gt_root = '/home/wyq/dataset/RS-SOD/EORSSD_aug/train/gt/'
+image_root = './dataset/train_dataset/ORSSD/train/image/'
+gt_root = './dataset/train_dataset/ORSSD/train/GT/'
+
 train_loader = get_loader(image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize)
 total_step = len(train_loader)
 
@@ -68,7 +67,7 @@ def train(train_loader, model, optimizer, epoch):
                            opt.lr * opt.decay_rate ** (epoch // opt.decay_epoch), loss.data))
 
 
-    save_path = '/home/wyq/ICME_Rebuttal/models/'
+    save_path = 'models/DBANet/'
 
     if not os.path.exists(save_path):
         os.makedirs(save_path)
