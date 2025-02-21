@@ -17,10 +17,10 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--testsize', type=int, default=352, help='testing size')
 opt = parser.parse_args()
 
-dataset_path = '/home/wyq/dataset/RS-SOD/'
+dataset_path = './dataset/test_dataset/'
 
 model = DBANet()
-model.load_state_dict(torch.load('/home/wyq/work/tyf_wyq_shiyan/EORSSD/MECS+GGCA+GCSA_decoder_11+_ggca3qkv1/models/GeleNet_2/GeleNet.pth.42'))
+model.load_state_dict(torch.load('./models/DBANet.pth'))
 
 model.cuda()
 model.eval()
