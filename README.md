@@ -31,5 +31,5 @@ Note: Our main model is under './model/DBANet.py'
    
 ## 🎫 Visualization
    <div align=center>
-   <img src="https://github.com/ICME2025/DBANet/blob/main/images/Visualization.png.jpg">
+   <img src="https://github.com/ICME2025/DBANet/blob/main/images/Visualization.png">
    </div>
