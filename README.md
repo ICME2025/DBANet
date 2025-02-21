@@ -10,7 +10,7 @@ Salient object detection in optical remote sensing images (ORSI-SOD) presents si
 
 ## 📻 Network Architecture
    <div align=center>
-   <img src="https://github.com/Wyqmiao/RoCAFENet/blob/main/images/RoCAFENet.jpg">
+   <img src="https://github.com/ICME2025/DBANet/blob/main/images/DBANet.png">
    </div>
 The overall architecture of DBANet, which mainly consists of Feature Enhancement Attention (FEA) module and an improved decoder. (a) Diagonal Enhanced Attention (DEA), (b) Multi-Scale Spatial Attention (MSA), and (c) Channel-Enhanced Attention Fusion (CEAF) module.
    
@@ -26,10 +26,10 @@ Note: Our main model is under './model/DBANet.py'
 
 ## 🖼️ Quantitative comparison
    <div align=center>
-   <img src="https://github.com/Wyqmiao/RoCAFENet/blob/main/images/table1.jpg">
+   <img src="https://github.com/ICME2025/DBANet/blob/main/images/table.png">
    </div>
    
 ## 🎫 Visualization
    <div align=center>
-   <img src="https://github.com/Wyqmiao/RoCAFENet/blob/main/images/Visualization comparison.jpg">
+   <img src="https://github.com/ICME2025/DBANet/blob/main/images/Visualization.png.jpg">
    </div>
